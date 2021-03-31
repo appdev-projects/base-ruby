@@ -1,4 +1,4 @@
-image: jelaniwoods/base-ruby
+image: gitpod/workspace-full:latest
 
 ports:
   - port: 3000
