@@ -94,8 +94,8 @@ RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
 RUN sudo apt install -y libpq-dev psmisc lsof
 USER gitpod
 RUN echo 'export PATH="$PATH:$GITPOD_REPO_ROOT/bin"' >> ~/.bashrc
-RUN echo " # No arguments: `git status`\n\
-# With arguments: acts like `git`\n\
+RUN echo " # No arguments: 'git status'\n\
+# With arguments: acts like 'git'\n\
 g() {\n\
   if [[ $# > 0 ]]; then\n\
     git $@\n\
