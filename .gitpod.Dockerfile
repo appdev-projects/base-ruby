@@ -97,13 +97,13 @@ RUN echo 'export PATH="$PATH:$GITPOD_REPO_ROOT/bin"' >> ~/.bashrc
 RUN echo " # No arguments: 'git status'\n\
 # With arguments: acts like 'git'\n\
 g() {\n\
-  if [[ $# > 0 ]]; then\n\
-    git $@\n\
+  if [[ \$# > 0 ]]; then\n\
+    git \$@\n\
   else\n\
     git status\n\
   fi\n\
 }\n\
 # Complete g like git\n\
 source /usr/share/bash-completion/completions/git\n\
-__git_complete g __git_main" >> ~/.bashrc
+__git_complete g __git_main" >> ~/.bash_aliases
 
