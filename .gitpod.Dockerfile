@@ -105,5 +105,5 @@ g() {\n\
 }\n\
 # Complete g like git\n\
 source /usr/share/bash-completion/completions/git\n\
-__git_complete g __git_main" >> ~/.bash_aliases
+__git_complete g __git_main" >> ~/.bashrc
 
