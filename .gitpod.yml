@@ -1,4 +1,4 @@
-image: jelaniwoods/appdev2021-base-ruby@sha256:e987a5840e27b23b4272cef395b84d0386b6b23839c193f6146f9c32eb619078
+image: jelaniwoods/appdev2021-base-ruby@sha256:4ccc1155b08993ca5b2b20dad4f603fcfbda850ad3892aeb354783571cd59d50
 
 ports:
   - port: 3000
@@ -11,7 +11,4 @@ ports:
 vscode:
   extensions:
     - shd101wyy.markdown-preview-enhanced
-    - vortizhe.simple-ruby-erb
-    - CraigMaslowski.erb
-    - Vense.rails-snippets
     - wingrunr21.vscode-ruby
