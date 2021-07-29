@@ -1,4 +1,4 @@
-image: jelaniwoods/appdev2021-base-ruby@sha256:1206e277e3d145cf9b90339089b26f866cfa59d5cf6e3d8b1973a346944c9e5e
+image: jelaniwoods/appdev2021-base-ruby@sha256:e987a5840e27b23b4272cef395b84d0386b6b23839c193f6146f9c32eb619078
 
 ports:
   - port: 3000
