@@ -58,7 +58,7 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
     && bash -lc " \
         rvm requirements \
         && rvm install 3.0.0 \
-        && rvm use 3.0.0 --default \
+        && rvm use 3.0.0 --default --create \
         && rvm rubygems current \
         && gem install bundler --no-document \
         && gem install rufo htmlbeautifier --no-document" \
