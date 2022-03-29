@@ -1,4 +1,4 @@
-image: jelaniwoods/appdev2022-base-ruby
+image: jelaniwoods/appdev2022-base-ruby-k
 
 ports:
   - port: 3000
