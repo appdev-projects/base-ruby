@@ -1,0 +1,76 @@
+GIT
+  remote: https://github.com/firstdraft/web_git.git
+  revision: f7685612697de696c94c4fe9b27ee8f03dbc1a63
+  specs:
+    web_git (0.1.0)
+      actionview
+      ansispan
+      diffy
+      git
+      sinatra
+      tzinfo-data
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    actionview (7.0.2.3)
+      activesupport (= 7.0.2.3)
+      builder (~> 3.1)
+      erubi (~> 1.4)
+      rails-dom-testing (~> 2.0)
+      rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    activesupport (7.0.2.3)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    ansispan (0.0.1)
+    builder (3.2.4)
+    concurrent-ruby (1.1.10)
+    crass (1.0.6)
+    diffy (3.4.0)
+    erubi (1.10.0)
+    git (1.10.2)
+      rchardet (~> 1.8)
+    i18n (1.10.0)
+      concurrent-ruby (~> 1.0)
+    loofah (2.15.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.5.9)
+    minitest (5.15.0)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    nokogiri (1.13.3-x86_64-darwin)
+      racc (~> 1.4)
+    racc (1.6.0)
+    rack (2.2.3)
+    rack-protection (2.2.0)
+      rack
+    rails-dom-testing (2.0.3)
+      activesupport (>= 4.2.0)
+      nokogiri (>= 1.6)
+    rails-html-sanitizer (1.4.2)
+      loofah (~> 2.3)
+    rchardet (1.8.0)
+    ruby2_keywords (0.0.5)
+    sinatra (2.2.0)
+      mustermann (~> 1.0)
+      rack (~> 2.2)
+      rack-protection (= 2.2.0)
+      tilt (~> 2.0)
+    tilt (2.0.10)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2022.1)
+      tzinfo (>= 1.0.0)
+    webrick (1.7.0)
+
+PLATFORMS
+  x86_64-darwin-19
+
+DEPENDENCIES
+  web_git!
+  webrick
+
+BUNDLED WITH
+   2.2.16

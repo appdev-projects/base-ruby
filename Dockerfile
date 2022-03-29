@@ -85,13 +85,13 @@ USER gitpod
 RUN /bin/bash -l -c "sudo apt update && sudo apt install -y graphviz"
 
 WORKDIR /base-rails
-# COPY Gemfile /base-rails/Gemfile
-# COPY Gemfile.lock /base-rails/Gemfile.lock
-# # For some reason, the copied files were owned by root so bundle could not succeed
-# RUN /bin/bash -l -c "sudo chown -R $(whoami):$(whoami) Gemfile Gemfile.lock"
-# USER gitpod
-# # Pre-install gems in Gemfile
-# RUN /bin/bash -l -c "bundle install"
+COPY Gemfile /base-rails/Gemfile
+COPY Gemfile.lock /base-rails/Gemfile.lock
+# For some reason, the copied files were owned by root so bundle could not succeed
+RUN /bin/bash -l -c "sudo chown -R $(whoami):$(whoami) Gemfile Gemfile.lock"
+USER gitpod
+# Pre-install gems in Gemfile
+RUN /bin/bash -l -c "bundle install"
 # Install Heroku
 RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
 # Install node and yarn
