@@ -1,17 +1,17 @@
-image: jelaniwoods/appdev2021-base-ruby@sha256:4ccc1155b08993ca5b2b20dad4f603fcfbda850ad3892aeb354783571cd59d50
+image: jelaniwoods/appdev2022-base-ruby
 
 ports:
   - port: 3000
     onOpen: open-preview
-    visibility: public
-  - port: 4567
-    onOpen: open-preview
-    visibility: public
+  - port: 9500-9999
+    onOpen: ignore
 
 vscode:
   extensions:
-    - shd101wyy.markdown-preview-enhanced
-    - wingrunr21.vscode-ruby
+    - vortizhe.simple-ruby-erb
+    - mbessey.vscode-rufo
+    - aliariff.vscode-erb-beautify
+
 github:
   prebuilds:
     master: true
