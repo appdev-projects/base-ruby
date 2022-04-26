@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require "fileutils"
+if !Dir.exist?("vendor/bundle/ruby") && Dir.exist?("/base-rails/gems/ruby")
+  FileUtils.cp_r("/base-rails/gems/ruby", "vendor/bundle")
+end
+system "bundle config set --local path 'vendor/bundle'"
+system 'bundle install'

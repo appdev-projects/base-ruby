@@ -1,5 +1,9 @@
 image: jelaniwoods/appdev2022-base-ruby
 
+tasks:
+  - before: |
+      bin/setup
+
 ports:
   - port: 3000
     onOpen: open-preview
