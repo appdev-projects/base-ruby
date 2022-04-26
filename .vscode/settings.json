@@ -24,6 +24,7 @@
 		"Dockerfile": true,
 		".gitpod.yml": true,
 		"config.ru": true,
+		"bin": true,
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
