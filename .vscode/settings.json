@@ -21,6 +21,7 @@
 		".vscode": true,
 		".bundle": true,
 		".gitignore": true,
+		".ruby-version": true,
 		"vendor": true,
 		"Dockerfile": true,
 		".gitpod.yml": true,
