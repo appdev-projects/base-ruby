@@ -20,6 +20,7 @@
 		"**/.git": true,
 		".vscode": true,
 		".bundle": true,
+		".gitignore": true,
 		"vendor": true,
 		"Dockerfile": true,
 		".gitpod.yml": true,

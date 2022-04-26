@@ -7,4 +7,4 @@ if [ -f $pid ]; then
   rm $pid
 fi
 fuser -k -n tcp 3000
-rackup --port=3000 -o 0.0.0.0
+bundle exec rackup --port=3000 -o 0.0.0.0
