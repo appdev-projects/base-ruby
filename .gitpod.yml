@@ -1,8 +1,10 @@
-image: jelaniwoods/appdev2022-base-ruby
+image: jelaniwoods/appdev2023-base-ruby
 
 tasks:
   - before: |
+      source $(rvm 3.1.2 do rvm env --path)
       bin/setup
+      .vscode/manage_extensions
 
 ports:
   - port: 3000
@@ -13,9 +15,4 @@ ports:
 vscode:
   extensions:
     - vortizhe.simple-ruby-erb
-    - mbessey.vscode-rufo
     - aliariff.vscode-erb-beautify
-
-github:
-  prebuilds:
-    master: true

@@ -57,8 +57,8 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
     && curl -fsSL https://get.rvm.io | bash -s stable \
     && bash -lc " \
         rvm requirements \
-        && rvm install 2.7.3 \
-        && rvm use 2.7.3 --default \
+        && rvm install 3.1.2 \
+        && rvm use 3.1.2 --default \
         && rvm rubygems current \
         && gem install bundler --no-document" \
     && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*' >> /home/gitpod/.bashrc.d/70-ruby
@@ -69,30 +69,44 @@ USER gitpod
 
 WORKDIR /base-rails
 
-# Install Google Chrome
-RUN sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | \
-    tee -a /etc/apt/sources.list.d/google.list' && \
-    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
-    sudo apt-key add - && \
-    sudo apt-get update && \
-    sudo apt-get install -y google-chrome-stable libxss1
+# # Install Google Chrome
+# RUN sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | \
+#     tee -a /etc/apt/sources.list.d/google.list' && \
+#     wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
+#     sudo apt-key add - && \
+#     sudo apt-get update && \
+#     sudo apt-get install -y google-chrome-stable libxss1
 
-# Install Chromedriver (compatable with Google Chrome version)
-#   See https://gerg.dev/2021/06/making-chromedriver-and-chrome-versions-match-in-a-docker-image/
-RUN BROWSER_MAJOR=$(google-chrome --version | sed 's/Google Chrome \([0-9]*\).*/\1/g') && \
-    wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${BROWSER_MAJOR} -O chrome_version && \
-    wget https://chromedriver.storage.googleapis.com/`cat chrome_version`/chromedriver_linux64.zip && \
-    unzip chromedriver_linux64.zip && \
-    sudo mv chromedriver /usr/local/bin/ && \
-    DRIVER_MAJOR=$(chromedriver --version | sed 's/ChromeDriver \([0-9]*\).*/\1/g') && \
-    echo "chrome version: $BROWSER_MAJOR" && \
-    echo "chromedriver version: $DRIVER_MAJOR" && \
-    if [ $BROWSER_MAJOR != $DRIVER_MAJOR ]; then echo "VERSION MISMATCH"; exit 1; fi
+# # Install Chromedriver (compatable with Google Chrome version)
+# #   See https://gerg.dev/2021/06/making-chromedriver-and-chrome-versions-match-in-a-docker-image/
+# RUN BROWSER_MAJOR=$(google-chrome --version | sed 's/Google Chrome \([0-9]*\).*/\1/g') && \
+#     wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${BROWSER_MAJOR} -O chrome_version && \
+#     wget https://chromedriver.storage.googleapis.com/`cat chrome_version`/chromedriver_linux64.zip && \
+#     unzip chromedriver_linux64.zip && \
+#     sudo mv chromedriver /usr/local/bin/ && \
+#     DRIVER_MAJOR=$(chromedriver --version | sed 's/ChromeDriver \([0-9]*\).*/\1/g') && \
+#     echo "chrome version: $BROWSER_MAJOR" && \
+#     echo "chromedriver version: $DRIVER_MAJOR" && \
+#     if [ $BROWSER_MAJOR != $DRIVER_MAJOR ]; then echo "VERSION MISMATCH"; exit 1; fi
+# Install Google Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+RUN sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+RUN sudo apt-get -y update
+RUN sudo apt-get -y install google-chrome-stable
+# Install Chromedriver
+# RUN sudo apt-get -y install google-chrome-stable
+RUN wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
+RUN unzip chromedriver_linux64.zip
+
+RUN sudo mv chromedriver /usr/bin/chromedriver
+RUN sudo chown root:root /usr/bin/chromedriver
+RUN sudo chmod +x /usr/bin/chromedriver
+
 
 # Pre-install gems into /base-rails/gems/
 COPY Gemfile /base-rails/Gemfile
 COPY --chown=gitpod:gitpod Gemfile.lock /base-rails/Gemfile.lock
-RUN /bin/bash -l -c "gem install bundler:2.1.4"
+RUN /bin/bash -l -c "gem install bundler:2.2.16"
 RUN /bin/bash -l -c "mkdir gems && bundle config set --local path 'gems'"
 RUN /bin/bash -l -c "bundle install"
 
@@ -102,20 +116,31 @@ RUN sudo apt install -y libpq-dev psmisc lsof expect
 # Install heroku-cli
 RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
 
-# Install JS Dependencies
+# Install Node and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash - \
+    && sudo apt-get install -y nodejs
+
+# Install Yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
-    && sudo apt-get update && sudo apt-get install -y nodejs yarn
+    && sudo apt-get update \
+    && sudo apt-get install -y yarn \
+    && sudo npm install -g n \
+    && sudo n 18.13.0 \
+    && hash -r
 
 # Git global configuration
 RUN git config --global push.default upstream \
     && git config --global merge.ff only \
+    && git config --global alias.aa '!git add -A' \
+    && git config --global alias.cm '!f(){ git commit -m "${*}"; };f' \
     && git config --global alias.acm '!f(){ git add -A && git commit -am "${*}"; };f' \
     && git config --global alias.as '!git add -A && git stash' \
     && git config --global alias.p 'push' \
     && git config --global alias.sla 'log --oneline --decorate --graph --all' \
     && git config --global alias.co 'checkout' \
-    && git config --global alias.cob 'checkout -b'
+    && git config --global alias.cob 'checkout -b' \
+    && git config --global --add --bool push.autoSetupRemote true
 
 # Alias 'git' to 'g'
 RUN echo 'export PATH="$PATH:$GITPOD_REPO_ROOT/bin"' >> ~/.bashrc
@@ -131,6 +156,7 @@ g() {\n\
 source /usr/share/bash-completion/completions/git\n\
 __git_complete g __git_main" >> ~/.bash_aliases
 
-# Hack to pre-install bundled gems
-RUN echo "rvm use 2.7.3" >> ~/.bashrc
-RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
+# Alias bundle exec to be
+RUN echo "alias be='bundle exec'" >> ~/.bash_aliases
+RUN echo 'gem: --no-document' >> ~/.gemrc
+RUN /bin/bash -l -c "gem install htmlbeautifier rufo -N"
